@@ -133,7 +133,9 @@ EOF
 
 	# Converting from PostScript to PostScript-monochrome, then to PBM image format (per page)
 	#gs -sDEVICE=ps2write -sOutputFile=- -r$resolution -dQUIET -dBATCH -dNOPAUSE - | 
-	gs -sDEVICE=pbmraw -sOutputFile=${uid}/%03d-page.pbm -r$resolution -dQUIET -dBATCH -dNOPAUSE -
+	#gs -sDEVICE=pbmraw -sOutputFile=${uid}/%03d-page.pbm -r$resolution -dQUIET -dBATCH -dNOPAUSE -
+    gs --permit-file-all=${uid}/ -sDEVICE=pbmraw -sOutputFile=${uid}/%03d-page.pbm -r$resolution -dQUIET -dBATCH -dNOPAUSE -
+
 
 	stop
 	wait
@@ -144,7 +146,8 @@ EOF
 
 	# Converting from PostScript to PostScript-monochrome, then to PBM image format (per page)
 	log "Converting document to pages"
-	gs -sDEVICE=ps2write -sOutputFile=- -r$resolution -dQUIET -dBATCH -dNOPAUSE - | gs -sDEVICE=pbmraw -sOutputFile=${uid}/%03d-page.pbm -r$resolution -dQUIET -dBATCH -dNOPAUSE -
+	#gs -sDEVICE=ps2write -sOutputFile=- -r$resolution -dQUIET -dBATCH -dNOPAUSE - | gs -sDEVICE=pbmraw -sOutputFile=${uid}/%03d-page.pbm -r$resolution -dQUIET -dBATCH -dNOPAUSE -
+    gs -sDEVICE=ps2write -sOutputFile=- -r$resolution -dQUIET -dBATCH -dNOPAUSE - | gs --permit-file-all=${uid}/ -sDEVICE=pbmraw -sOutputFile=${uid}/%03d-page.pbm -r$resolution -dQUIET -dBATCH -dNOPAUSE -
 	log "Conversion complete"
 
 	cat <<EOF
